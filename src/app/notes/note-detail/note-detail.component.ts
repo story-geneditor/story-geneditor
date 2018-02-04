@@ -24,8 +24,16 @@ export class NoteDetailComponent {
     }
   }
 
-  getRandomLand() {
-      var rand = myArray[Math.floor(Math.random() * myArray.length)];
+  getRandomLand(val: number) {
+      let listOfLands: string[] = [
+        'Swamp',
+        'Farms',
+        'Mountains',
+        'City'
+      ]
+
+      var randomLand = listOfLands[Math.floor(Math.random() * listOfLands.length)];
+      this.noteService.updateNote(this.note.id, { content: randomLand});
   }
 
 
