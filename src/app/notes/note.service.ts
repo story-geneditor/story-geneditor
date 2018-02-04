@@ -11,6 +11,7 @@ interface NewNote {
   content: string;
   hearts: 0;
   time: number;
+  locked: false;
 }
 
 @Injectable()
@@ -32,7 +33,7 @@ export class NoteService {
     return this.notesCollection.snapshotChanges().map((actions) => {
       return actions.map((a) => {
         const data = a.payload.doc.data() as Note;
-        return { id: a.payload.doc.id, content: data.content, hearts: data.hearts, time: data.time };
+        return { id: a.payload.doc.id, content: data.content, hearts: data.hearts, time: data.time, locked: data.locked };
       });
     });
   }
@@ -46,6 +47,7 @@ export class NoteService {
       content,
       hearts: 0,
       time: new Date().getTime(),
+      locked: false
     };
     return this.notesCollection.add(note);
   }

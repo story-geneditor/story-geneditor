@@ -25,6 +25,10 @@ export class NoteDetailComponent {
   }
 
   getRandomLand(val: number) {
+      if (this.note.locked) {
+        return;
+      }
+
       let listOfLands: string[] = [
         'Swamp',
         'Farms',
@@ -36,7 +40,9 @@ export class NoteDetailComponent {
       this.noteService.updateNote(this.note.id, { content: randomLand});
   }
 
-
+  toggleLock() {
+      this.noteService.updateNote(this.note.id, {locked: !this.note.locked});
+  }
 
   deleteNote(id: string) {
     this.noteService.deleteNote(id);

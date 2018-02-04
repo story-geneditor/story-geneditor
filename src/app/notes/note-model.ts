@@ -3,4 +3,5 @@ export interface Note {
   hearts: number;
   id?: string;
   time: number;
+  locked: boolean;
 }

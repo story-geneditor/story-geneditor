@@ -1,7 +1,7 @@
 <div style="width:20vw; height:20vw">
   <h3>{{ note.content }}</h3>
-  <span class="button is-small is-info" (click)='getRandomLand(note.hearts)'>
-    <i class="fa fa-unlock-alt"></i>
+  <span class="button is-small is-info" (click)='toggleLock()'>
+    <p>Locked:{{ note.locked }}</p> <i class="fa fa-unlock-alt"></i> 
   </span>
   <span class="button is-small is-danger" (click)='getRandomLand(note.hearts)'>
     <i class="fa fa-random"></i>
