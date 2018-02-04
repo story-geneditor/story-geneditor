@@ -37,11 +37,16 @@ export class NoteDetailComponent {
       ]
 
       var randomLand = listOfLands[Math.floor(Math.random() * listOfLands.length)];
-      this.noteService.updateNote(this.note.id, { content: randomLand});
+      console.log(typeof randomLand)
+      if (this.note.id){
+        this.noteService.updateNote(this.note.id, { content: randomLand});
+      }
   }
 
   toggleLock() {
+    if (this.note.id){
       this.noteService.updateNote(this.note.id, {locked: !this.note.locked});
+    }
   }
 
   deleteNote(id: string) {

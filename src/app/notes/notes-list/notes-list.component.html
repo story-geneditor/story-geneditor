@@ -8,6 +8,11 @@
   Add Note
 </button>
 <hr>
+
+<span class="button is-small is-warning" (click)='rerollAllLands()'>
+  Reroll all lands <i class="fa fa-random"></i>
+</span>
+
 <div class="row">
   <div *ngFor="let note of notes | async" class="col-4"
   style="background-color:coral; border-style: dotted;">

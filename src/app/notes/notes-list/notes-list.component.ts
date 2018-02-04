@@ -28,4 +28,13 @@ export class NotesListComponent implements OnInit {
     this.content = '';
   }
 
+  rerollAllLands() {
+    console.log('check')
+    this.notes.forEach(tile => {
+      console.log('check2')
+      //console.log(tile)
+      //tile.getRandomLand();*/
+    });
+  }
+
 }
