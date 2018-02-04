@@ -24,6 +24,12 @@ export class NoteDetailComponent {
     }
   }
 
+  getRandomLand() {
+      var rand = myArray[Math.floor(Math.random() * myArray.length)];
+  }
+
+
+
   deleteNote(id: string) {
     this.noteService.deleteNote(id);
   }
