@@ -5,6 +5,7 @@ import { NoteService } from '../note.service';
 import { Note } from '../note-model';
 
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 
 @Component({
   selector: 'notes-list',
@@ -24,17 +25,22 @@ export class NotesListComponent implements OnInit {
   }
 
   createNote() {
+    /*console.log(this.notes);
+    this.notes.subscribe( x => { return console.log(x); });
+    console.log(this.noteService.notesCollection);
+    console.log(this.noteService.notesCollection.length);
+
+    return;*/
+
     this.noteService.create(this.content);
     this.content = '';
   }
 
   rerollAllLands() {
-    console.log('check')
-    this.notes.forEach(tile => {
-      console.log('check2')
-      //console.log(tile)
-      //tile.getRandomLand();*/
-    });
+    //console.log(tiles);
+    /*this.notes.subscribe(tile => {
+        console.log(tile)
+      })*/
+    this.noteService.rerollAllLands();
   }
-
 }

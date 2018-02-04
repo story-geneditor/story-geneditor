@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Note } from './note-model';
 
 import { Observable } from 'rxjs/Observable';
+
 import { map } from 'rxjs/operators';
 
 interface NewNote {
@@ -62,6 +63,32 @@ export class NoteService {
       locked: false
     };
     return this.notesCollection.add(note);
+  }
+
+  rerollAllLands() {
+    /*this.tiles = */this.afs.collection('notes', ref => ref.limit(9))
+     .snapshotChanges()
+     .subscribe(tiles=>{
+         for (var tile of tiles){
+           let id = tile.payload.doc.id
+           const data = tile.payload.doc.data() as Note;
+           if (!data.locked) {
+             this.updateNote(id, {content: this.randomLand()});
+           }
+         }
+         //TODO: unsubscribe
+       })
+
+
+    //console.log(this.notesCollection.valueChanges())
+    /*this.notesCollection.snapshotChanges().map((tile) => {
+      console.log(tile)
+    })*/
+  /*  this.notesCollection.map(tile =>{
+      tile.getRandomLand;
+    });
+  */
+
   }
 
   updateNote(id: string, data: Partial<Note>) {
