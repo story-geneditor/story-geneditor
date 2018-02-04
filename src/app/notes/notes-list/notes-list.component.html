@@ -9,7 +9,8 @@
 </button>
 <hr>
 <div class="row">
-  <div *ngFor="let note of notes | async" class="col-4" style="width:200px">
+  <div *ngFor="let note of notes | async" class="col-4"
+  style="background-color:coral; border-style: dotted;">
     <note-detail [note]="note"></note-detail>
   </div>
 </div>
