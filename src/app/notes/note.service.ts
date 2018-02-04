@@ -19,9 +19,21 @@ export class NoteService {
 
   notesCollection: AngularFirestoreCollection<Note>;
   noteDocument:   AngularFirestoreDocument<Node>;
+  listOfLands: string[];
 
   constructor(private afs: AngularFirestore) {
     this.notesCollection = this.afs.collection('notes', (ref) => ref.orderBy('time', 'desc').limit(9));
+
+    this.listOfLands = [
+      'Swamp',
+      'Farms',
+      'Mountains',
+      'City'
+    ];
+  }
+
+  randomLand() : string {
+    return this.listOfLands[Math.floor(Math.random() * this.listOfLands.length)];
   }
 
   getData(): Observable<Note[]> {

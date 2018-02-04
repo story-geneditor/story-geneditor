@@ -29,15 +29,8 @@ export class NoteDetailComponent {
         return;
       }
 
-      let listOfLands: string[] = [
-        'Swamp',
-        'Farms',
-        'Mountains',
-        'City'
-      ]
-
-      var randomLand = listOfLands[Math.floor(Math.random() * listOfLands.length)];
-      console.log(typeof randomLand)
+      var randomLand = this.noteService.randomLand();
+      // console.log(typeof randomLand)
       if (this.note.id){
         this.noteService.updateNote(this.note.id, { content: randomLand});
       }
