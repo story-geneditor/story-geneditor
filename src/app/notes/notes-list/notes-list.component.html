@@ -1,5 +1,5 @@
-<h1>Firestore Notes</h1>
-<p>This is a very basic demo of the Firestore database.</p>
+<h1>Your Story & Map</h1>
+<p>Create an awesome adventure</p>
 
 <input [(ngModel)]="content" placeholder="Add your own note" class="input">
 
@@ -8,8 +8,8 @@
   Add Note
 </button>
 <hr>
-<div *ngFor="let note of notes | async">
-  <note-detail [note]="note"></note-detail>
+<div class="row">
+  <div *ngFor="let note of notes | async" class="col-4" style="width:200px">
+    <note-detail [note]="note"></note-detail>
+  </div>
 </div>
-
-
