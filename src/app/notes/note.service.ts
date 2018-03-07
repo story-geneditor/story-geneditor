@@ -8,6 +8,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { map } from 'rxjs/operators';
 
+import 'rxjs/add/operator/first';
+
 interface NewNote {
   content: string;
   hearts: 0;
@@ -66,18 +68,23 @@ export class NoteService {
   }
 
   rerollAllLands() {
-    /*this.tiles = */this.afs.collection('notes', ref => ref.limit(9))
+    var tiles = this.afs.collection('notes', ref => ref.limit(9))
+    console.log(tiles)
+
+    this.afs.collection('notes', ref => ref.limit(9))
      .snapshotChanges()
+     .first()
      .subscribe(tiles=>{
          for (var tile of tiles){
            let id = tile.payload.doc.id
            const data = tile.payload.doc.data() as Note;
+           console.log (id, data)
            if (!data.locked) {
              this.updateNote(id, {content: this.randomLand()});
            }
          }
-         //TODO: unsubscribe
        })
+
 
 
     //console.log(this.notesCollection.valueChanges())
