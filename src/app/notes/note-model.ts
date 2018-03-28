@@ -1,5 +1,6 @@
 export interface Note {
-  content: string;
+  landtype: string;
+  landname: string;
   hearts: number;
   id?: string;
   time: number;

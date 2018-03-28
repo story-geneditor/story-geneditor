@@ -12,12 +12,12 @@ import { map } from 'rxjs/operators';
 
 import 'rxjs/add/operator/first';
 
-interface NewNote {
-  content: string;
-  hearts: 0;
-  time: number;
-  locked: false;
-}
+// interface NewNote {
+//   content: string;
+//   hearts: 0;
+//   time: number;
+//   locked: false;
+// }
 
 @Injectable()
 export class NoteService {
@@ -25,18 +25,27 @@ export class NoteService {
   notesCollection: AngularFirestoreCollection<Note>;
   questsCollection: AngularFirestoreCollection<Quest>;
   noteDocument:   AngularFirestoreDocument<Node>;
-  listOfLands: string[];
   listOfItems: string[];
+  listOfLandTypes: string[];
+  listOfLandNames: string[];
 
   constructor(private afs: AngularFirestore) {
     this.notesCollection = this.afs.collection('notes', (ref) => ref.orderBy('time', 'desc').limit(9));
     this.questsCollection = this.afs.collection('quests', (ref) => ref.orderBy('time', 'desc').limit(2));
 
-    this.listOfLands = [
+    this.listOfLandTypes = [
       'Swamp',
       'Farms',
       'Mountains',
       'City'
+    ];
+
+    this.listOfLandNames = [
+      'Proud',
+      'Dubious',
+      'Lofty',
+      'Weird',
+      'Sprawling'
     ];
 
     this.listOfItems = [
@@ -47,10 +56,14 @@ export class NoteService {
       'true love',
       'the fountain of youth'
     ];
+
   }
 
-  randomLand() : string {
-    return this.listOfLands[Math.floor(Math.random() * this.listOfLands.length)];
+  randomizeLand(id: string) {
+    console.log("randomizeLand " + id);
+    var randomLandType = this.listOfLandTypes[Math.floor(Math.random() * this.listOfLandTypes.length)];
+    var randomLandName = this.listOfLandNames[Math.floor(Math.random() * this.listOfLandNames.length)];
+    this.updateNote(id, {landtype: randomLandType, landname: randomLandName});
   }
 
   randomItem() : string {
@@ -62,7 +75,7 @@ export class NoteService {
     return this.notesCollection.snapshotChanges().map((actions) => {
       return actions.map((a) => {
         const data = a.payload.doc.data() as Note;
-        return { id: a.payload.doc.id, content: data.content, hearts: data.hearts, time: data.time, locked: data.locked };
+        return { id: a.payload.doc.id, landname: data.landname, landtype: data.landtype, hearts: data.hearts, time: data.time, locked: data.locked };
       });
     });
   }
@@ -84,14 +97,15 @@ export class NoteService {
     return this.afs.doc<Quest>(`quests/${id}`);
   }
 
-  create(content: string) {
+  create() {
     const note = {
-      content,
+      landtype: "LandType",
+      landname: "LandName",
       hearts: 0,
       time: new Date().getTime(),
       locked: false
     };
-    return this.notesCollection.add(note);
+    return this.notesCollection.add(note);;
   }
 
   rerollAllLands() {
@@ -107,7 +121,7 @@ export class NoteService {
            const data = tile.payload.doc.data() as Note;
            console.log (id, data)
            if (!data.locked) {
-             this.updateNote(id, {content: this.randomLand()});
+             this.randomizeLand(id);
            }
          }
        })
@@ -115,8 +129,10 @@ export class NoteService {
   }
 
   deleteAndRemake() {
+    console.log("deleteAndRemake");
     var mapSize = 9;
-    this.afs.collection('notes', ref => ref.limit(9))
+    //create
+    this.afs.collection('notes')
      .snapshotChanges()
      .first()
      .subscribe(tiles=>{
@@ -126,8 +142,11 @@ export class NoteService {
        }
      });
      for (var step = 0; step < mapSize; step++) {
-       this.create(this.randomLand());
+       this.create();
      }
+
+     //then as a second step, randomize:
+     this.rerollAllLands();
   }
 
   updateNote(id: string, data: Partial<Note>) {

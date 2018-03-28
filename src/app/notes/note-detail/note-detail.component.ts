@@ -24,16 +24,11 @@ export class NoteDetailComponent {
     }
   }
 
-  getRandomLand(val: number) {
+  getRandomLand() {
       if (this.note.locked) {
         return;
       }
-
-      var randomLand = this.noteService.randomLand();
-      // console.log(typeof randomLand)
-      if (this.note.id){
-        this.noteService.updateNote(this.note.id, { content: randomLand});
-      }
+      var randomLand = this.noteService.randomizeLand(this.note.id);
   }
 
   toggleLock() {

@@ -35,8 +35,10 @@ export class NotesListComponent implements OnInit {
 
     return;*/
 
-    this.noteService.create(this.content);
-    this.content = '';
+    //Formerly, this.content was used to create a tile with a specific label
+    // this.noteService.create(this.content);
+    // this.content = '';
+    this.noteService.create();
   }
 
   rerollAllLands() {
