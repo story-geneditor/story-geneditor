@@ -2,10 +2,11 @@
 <p>Create an awesome adventure</p>
 
 <div class="row">
-  <div *ngFor="let quest of quests | async" class="col-4"
-  style="">
-    <quest-detail [quest]="quest"></quest-detail>
-  </div>
+  <ol>
+    <li *ngFor="let quest of quests | async">
+      <quest-detail [quest]="quest"></quest-detail>
+    </li>
+  </ol>
 </div>
 
 <!--

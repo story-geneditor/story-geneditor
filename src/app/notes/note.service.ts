@@ -30,7 +30,7 @@ export class NoteService {
 
   constructor(private afs: AngularFirestore) {
     this.notesCollection = this.afs.collection('notes', (ref) => ref.orderBy('time', 'desc').limit(9));
-    this.questsCollection = this.afs.collection('quests', (ref) => ref.orderBy('deliveryitem', 'desc').limit(1));
+    this.questsCollection = this.afs.collection('quests', (ref) => ref.orderBy('time', 'desc').limit(2));
 
     this.listOfLands = [
       'Swamp',
@@ -42,7 +42,10 @@ export class NoteService {
     this.listOfItems = [
       'the one ring',
       'the deathstar plans',
-      'the tessaract cube'
+      'the holy grail',
+      'the lost arc',
+      'true love',
+      'the fountain of youth'
     ];
   }
 
@@ -68,7 +71,7 @@ export class NoteService {
     return this.questsCollection.snapshotChanges().map((actions) => {
       return actions.map((a) => {
         const data = a.payload.doc.data() as Quest;
-        return { id: a.payload.doc.id, deliveryitem: data.deliveryitem };
+        return { id: a.payload.doc.id, time: data.time, deliveryitem: data.deliveryitem };
       });
     });
   }
