@@ -26,6 +26,7 @@ export class NoteService {
   questsCollection: AngularFirestoreCollection<Quest>;
   noteDocument:   AngularFirestoreDocument<Node>;
   listOfLands: string[];
+  listOfItems: string[];
 
   constructor(private afs: AngularFirestore) {
     this.notesCollection = this.afs.collection('notes', (ref) => ref.orderBy('time', 'desc').limit(9));
@@ -37,10 +38,20 @@ export class NoteService {
       'Mountains',
       'City'
     ];
+
+    this.listOfItems = [
+      'the one ring',
+      'the deathstar plans',
+      'the tessaract cube'
+    ];
   }
 
   randomLand() : string {
     return this.listOfLands[Math.floor(Math.random() * this.listOfLands.length)];
+  }
+
+  randomItem() : string {
+    return this.listOfItems[Math.floor(Math.random() * this.listOfItems.length)];
   }
 
   getSnapshot(): Observable<Note[]> {
@@ -64,6 +75,10 @@ export class NoteService {
 
   getNote(id: string) {
     return this.afs.doc<Note>(`notes/${id}`);
+  }
+
+  getQuest(id: string) {
+    return this.afs.doc<Quest>(`quests/${id}`);
   }
 
   create(content: string) {
@@ -114,6 +129,10 @@ export class NoteService {
 
   updateNote(id: string, data: Partial<Note>) {
     return this.getNote(id).update(data);
+  }
+
+  updateQuest(id: string, data: Partial<Quest>) {
+    return this.getQuest(id).update(data);
   }
 
   deleteNote(id: string) {

@@ -16,8 +16,12 @@ export class QuestDetailComponent {
 
   constructor(private noteService: NoteService) { }
 
-  getRandomLand(val: number) {
-    //TODO
+  getRandomItem() {
+    var randomItem = this.noteService.randomItem();
+    // console.log(typeof randomLand)
+    if (this.quest.id){
+      this.noteService.updateQuest(this.quest.id, { deliveryitem: randomItem});
+    }
   }
 
   toggleLock() {

@@ -1,4 +1,4 @@
 export interface Quest {
-  deliveryitem: number;
+  deliveryitem: string;
   id?: string;
 }
