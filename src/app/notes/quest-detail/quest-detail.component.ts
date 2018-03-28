@@ -25,6 +25,9 @@ export class QuestDetailComponent {
   }
 
   toggleLock() {
+    console.log(this.quest.destination)
+    console.log(this.quest.destination.id)
+    console.log(this.quest.destination.landname)
     //TODO
   }
 

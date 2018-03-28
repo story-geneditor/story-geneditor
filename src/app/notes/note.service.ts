@@ -84,7 +84,7 @@ export class NoteService {
     return this.questsCollection.snapshotChanges().map((actions) => {
       return actions.map((a) => {
         const data = a.payload.doc.data() as Quest;
-        return { id: a.payload.doc.id, time: data.time, deliveryitem: data.deliveryitem };
+        return { id: a.payload.doc.id, time: data.time, deliveryitem: data.deliveryitem, destination: data.destination };
       });
     });
   }
@@ -109,6 +109,8 @@ export class NoteService {
   }
 
   createQuest() {
+    //TODO get random destination.
+
     const quest = {
       deliveryitem: this.randomItem(),
       time: new Date().getTime()
