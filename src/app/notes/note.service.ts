@@ -94,17 +94,22 @@ export class NoteService {
          }
        })
 
+  }
 
-
-    //console.log(this.notesCollection.valueChanges())
-    /*this.notesCollection.snapshotChanges().map((tile) => {
-      console.log(tile)
-    })*/
-  /*  this.notesCollection.map(tile =>{
-      tile.getRandomLand;
-    });
-  */
-
+  deleteAndRemake() {
+    var mapSize = 9;
+    this.afs.collection('notes', ref => ref.limit(9))
+     .snapshotChanges()
+     .first()
+     .subscribe(tiles=>{
+       for (var tile of tiles){
+         let id = tile.payload.doc.id;
+         this.getNote(id).delete();
+       }
+     });
+     for (var step = 0; step < mapSize; step++) {
+       this.create(this.randomLand());
+     }
   }
 
   updateNote(id: string, data: Partial<Note>) {

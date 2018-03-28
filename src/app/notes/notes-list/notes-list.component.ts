@@ -46,4 +46,8 @@ export class NotesListComponent implements OnInit {
       })*/
     this.noteService.rerollAllLands();
   }
+
+  deleteAndRemake() {
+    this.noteService.deleteAndRemake();
+  }
 }
