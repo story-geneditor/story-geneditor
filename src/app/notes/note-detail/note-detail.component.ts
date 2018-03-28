@@ -28,7 +28,9 @@ export class NoteDetailComponent {
       if (this.note.locked) {
         return;
       }
-      var randomLand = this.noteService.randomizeLand(this.note.id);
+      if (this.note.id) {
+        this.noteService.randomizeLand(this.note.id);
+      }
   }
 
   toggleLock() {
