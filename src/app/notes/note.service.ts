@@ -4,6 +4,8 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 
 import { Note } from './note-model';
 
+import { Quest } from './quest-model';
+
 import { Observable } from 'rxjs/Observable';
 
 import { map } from 'rxjs/operators';
@@ -21,11 +23,13 @@ interface NewNote {
 export class NoteService {
 
   notesCollection: AngularFirestoreCollection<Note>;
+  questsCollection: AngularFirestoreCollection<Quest>;
   noteDocument:   AngularFirestoreDocument<Node>;
   listOfLands: string[];
 
   constructor(private afs: AngularFirestore) {
     this.notesCollection = this.afs.collection('notes', (ref) => ref.orderBy('time', 'desc').limit(9));
+    this.questsCollection = this.afs.collection('quests', (ref) => ref.orderBy('deliveryitem', 'desc').limit(1));
 
     this.listOfLands = [
       'Swamp',
@@ -39,16 +43,21 @@ export class NoteService {
     return this.listOfLands[Math.floor(Math.random() * this.listOfLands.length)];
   }
 
-  getData(): Observable<Note[]> {
-    return this.notesCollection.valueChanges();
-  }
-
   getSnapshot(): Observable<Note[]> {
     // ['added', 'modified', 'removed']
     return this.notesCollection.snapshotChanges().map((actions) => {
       return actions.map((a) => {
         const data = a.payload.doc.data() as Note;
         return { id: a.payload.doc.id, content: data.content, hearts: data.hearts, time: data.time, locked: data.locked };
+      });
+    });
+  }
+
+  getQuestSnapshot(): Observable<Quest[]> {
+    return this.questsCollection.snapshotChanges().map((actions) => {
+      return actions.map((a) => {
+        const data = a.payload.doc.data() as Quest;
+        return { id: a.payload.doc.id, deliveryitem: data.deliveryitem };
       });
     });
   }

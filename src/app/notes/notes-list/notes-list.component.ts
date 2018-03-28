@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NoteService } from '../note.service';
 
 import { Note } from '../note-model';
+import { Quest } from '../quest-model';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
@@ -15,6 +16,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 export class NotesListComponent implements OnInit {
 
   notes: Observable<Note[]>;
+  quests: Observable<Quest[]>;
   content: string;
 
   constructor(private noteService: NoteService) { }
@@ -22,6 +24,7 @@ export class NotesListComponent implements OnInit {
   ngOnInit() {
     // this.notes = this.noteService.getData()
     this.notes = this.noteService.getSnapshot();
+    this.quests = this.noteService.getQuestSnapshot();
   }
 
   createNote() {

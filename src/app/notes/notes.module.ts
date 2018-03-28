@@ -8,6 +8,7 @@ import { NoteService } from './note.service';
 
 import { NotesListComponent } from './notes-list/notes-list.component';
 import { NoteDetailComponent } from './note-detail/note-detail.component';
+import { QuestDetailComponent } from './quest-detail/quest-detail.component';
 
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
@@ -21,6 +22,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
   declarations: [
     NotesListComponent,
     NoteDetailComponent,
+    QuestDetailComponent,
   ],
   providers: [NoteService],
 })

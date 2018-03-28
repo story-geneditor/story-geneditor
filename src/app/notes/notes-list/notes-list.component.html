@@ -1,12 +1,20 @@
 <h1>Your Story & Map</h1>
 <p>Create an awesome adventure</p>
 
+<div class="row">
+  <div *ngFor="let quest of quests | async" class="col-4"
+  style="">
+    <quest-detail [quest]="quest"></quest-detail>
+  </div>
+</div>
+
+<!--
 <input [(ngModel)]="content" placeholder="Add your own note" class="input">
-
-
 <button class="button is-success" (click)="createNote()" [disabled]="content?.length < 2 || content?.length > 200">
   Add Note
 </button>
+-->
+
 <hr>
 
 <span class="button is-small is-warning" (click)='rerollAllLands(notes.array)'>
