@@ -41,6 +41,10 @@ export class NotesListComponent implements OnInit {
     this.noteService.create();
   }
 
+  createQuest(){
+    this.noteService.createQuest()
+  }
+
   rerollAllLands() {
     //console.log(tiles);
     /*this.notes.subscribe(tile => {

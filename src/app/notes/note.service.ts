@@ -31,7 +31,7 @@ export class NoteService {
 
   constructor(private afs: AngularFirestore) {
     this.notesCollection = this.afs.collection('notes', (ref) => ref.orderBy('time', 'desc').limit(9));
-    this.questsCollection = this.afs.collection('quests', (ref) => ref.orderBy('time', 'desc').limit(2));
+    this.questsCollection = this.afs.collection('quests', (ref) => ref.orderBy('time', 'asc').limit(5));
 
     this.listOfLandTypes = [
       'Swamp',
@@ -108,6 +108,14 @@ export class NoteService {
     return this.notesCollection.add(note);;
   }
 
+  createQuest() {
+    const quest = {
+      deliveryitem: this.randomItem(),
+      time: new Date().getTime()
+    };
+    return this.questsCollection.add(quest);
+  }
+
   rerollAllLands() {
     var tiles = this.afs.collection('notes', ref => ref.limit(9))
     console.log(tiles)
@@ -159,5 +167,9 @@ export class NoteService {
 
   deleteNote(id: string) {
     return this.getNote(id).delete();
+  }
+
+  deleteQuest(id: string){
+    return this.getQuest(id).delete();
   }
 }

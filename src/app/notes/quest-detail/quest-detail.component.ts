@@ -28,8 +28,10 @@ export class QuestDetailComponent {
     //TODO
   }
 
-  deleteNote(id: string) {
-    //TODO
+  deleteQuest() {
+    if (this.quest.id){
+      this.noteService.deleteQuest(this.quest.id)
+    }
   }
 
 }
