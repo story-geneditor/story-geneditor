@@ -129,14 +129,14 @@ export class NoteService {
   getSingleAdventureSnapshot(): Observable<Adventure> {
     console.log('getSingleAdventureSnapshot')
     return this.adventureDocument.snapshotChanges().map((a) => {
-      console.log(a.payload)
-        const data = a.payload.data() as Adventure;
-        console.log('mapping data:', a.payload.data())
-        return {
-          id: a.payload.id,
-          time: data.time,
-          tiles: data.tiles,
-          quests: data.quests
+      //console.log(a.payload)
+      const data = a.payload.data() as Adventure;
+      console.log('mapping data:', a.payload.data())
+      return {
+        id: a.payload.id,
+        time: data.time,
+        tiles: data.tiles,
+        quests: data.quests
         };
     });
   }
