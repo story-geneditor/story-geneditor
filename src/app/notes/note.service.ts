@@ -6,6 +6,8 @@ import { Note } from './note-model';
 
 import { Quest } from './quest-model';
 
+import { Adventure } from './adventure-model';
+
 import { Observable } from 'rxjs/Observable';
 
 import { map } from 'rxjs/operators';
