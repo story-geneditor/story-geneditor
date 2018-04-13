@@ -76,15 +76,24 @@ export class NoteService {
 
   getSnapshot(): Observable<Note[]> {
     // ['added', 'modified', 'removed']
+    console.log('getSnapshot')
     return this.notesCollection.snapshotChanges().map((actions) => {
       return actions.map((a) => {
         const data = a.payload.doc.data() as Note;
-        return { id: a.payload.doc.id, landname: data.landname, landtype: data.landtype, hearts: data.hearts, time: data.time, locked: data.locked };
+        return {
+          id: a.payload.doc.id,
+          landname: data.landname,
+          landtype: data.landtype,
+          hearts: data.hearts,
+          time: data.time,
+          locked: data.locked
+        };
       });
     });
   }
 
   getQuestSnapshot(): Observable<Quest[]> {
+    console.log('getQuestSnapshot')
     return this.questsCollection.snapshotChanges().map((actions) => {
       return actions.map((a) => {
         const data = a.payload.doc.data() as Quest;
