@@ -24,6 +24,7 @@ export class NoteService {
 
   notesCollection: AngularFirestoreCollection<Note>;
   questsCollection: AngularFirestoreCollection<Quest>;
+  adventuresCollection: AngularFirestoreCollection<Adventure>;
   noteDocument:   AngularFirestoreDocument<Node>;
   listOfItems: string[];
   listOfLandTypes: string[];
@@ -32,6 +33,7 @@ export class NoteService {
   constructor(private afs: AngularFirestore) {
     this.notesCollection = this.afs.collection('notes', (ref) => ref.orderBy('time', 'desc').limit(9));
     this.questsCollection = this.afs.collection('quests', (ref) => ref.orderBy('time', 'asc').limit(5));
+    this.adventuresCollection = this.afs.collection('adventures', (ref) => ref.orderBy('time', 'asc').limit(1));
 
     this.listOfLandTypes = [
       'Swamp',
