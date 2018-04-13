@@ -1,6 +1,12 @@
 <h1>Your Story & Map</h1>
 <p>Create an awesome adventure</p>
 
+<ol>
+  <li *ngFor="let adventure of adventures | async">
+    <p>{{adventure.time}}</p>
+  </li>
+</ol>
+
 <span class="button is-small is-primary" (click)='createQuest()'>
   New Quest
 </span>
