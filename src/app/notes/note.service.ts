@@ -27,7 +27,7 @@ export class NoteService {
   notesCollection: AngularFirestoreCollection<Note>;
   questsCollection: AngularFirestoreCollection<Quest>;
   adventuresCollection: AngularFirestoreCollection<Adventure>;
-  //adventureDocument: AngularFirestoreDocument<Node>;
+  adventureDocument: AngularFirestoreDocument<Adventure>;
   noteDocument:   AngularFirestoreDocument<Node>;
   listOfItems: string[];
   listOfLandTypes: string[];
@@ -37,6 +37,7 @@ export class NoteService {
     this.notesCollection = this.afs.collection('notes', (ref) => ref.orderBy('time', 'desc').limit(9));
     this.questsCollection = this.afs.collection('quests', (ref) => ref.orderBy('time', 'asc').limit(5));
     this.adventuresCollection = this.afs.collection('adventures', (ref) => ref.orderBy('time', 'asc').limit(1));
+    this.adventureDocument = this.afs.doc<Adventure>(`adventures/wY0YFQAQE9hfHuoDAe6a`)
 
     this.listOfLandTypes = [
       'Swamp',
@@ -97,6 +98,7 @@ export class NoteService {
     console.log('getQuestSnapshot')
     return this.questsCollection.snapshotChanges().map((actions) => {
       return actions.map((a) => {
+        //console.log('mapping quests:', a.payload.doc.data())
         const data = a.payload.doc.data() as Quest;
         return {
           id: a.payload.doc.id,
@@ -121,6 +123,30 @@ export class NoteService {
           quests: data.quests
         };
       });
+    });
+  }
+
+  getSingleAdventureSnapshot(): Observable<Adventure> {
+    console.log('getSingleAdventureSnapshot')
+    //console.log(this.adventureDocument.snapshotChanges())
+    return this.adventureDocument.snapshotChanges().map((actions) => {
+      console.log(actions)
+      /*return actions.map((a) => {
+        const data = a.payload.doc.data() as Adventure;
+        console.log('mapping data:', a.payload.doc.data())
+        return {
+          id: a.payload.doc.id,
+          time: data.time,
+          tiles: data.tiles,
+          quests: data.quests
+        };
+      });*/
+      return {
+        id: 'a123456',
+        time: 1234,
+        // tiles: [],
+        // quests: []
+      };
     });
   }
 
