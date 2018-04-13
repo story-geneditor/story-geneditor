@@ -1,13 +1,13 @@
 <h1>Your Story & Map</h1>
 <p>Create an awesome adventure</p>
 
-<p>The object: {{adventure}}</p>
-<p>The time: {{adventure.time}}</p>
-<p>The id: {{adventure.id}}</p>
+<p>The object: {{(adventure | async)}}</p>
+<p>The time: {{(adventure | async)?.time}}</p>
+<p>The id: {{(adventure | async)?.id}}</p>
 
 <h2>From Single Adventure</h2>
 <ol>
-  <li *ngFor="let tile of adventure.tiles | async">
+  <li *ngFor="let tile of (adventure | async)?.tiles">
     <p>{{tile.landname}}</p>
   </li>
 </ol>
