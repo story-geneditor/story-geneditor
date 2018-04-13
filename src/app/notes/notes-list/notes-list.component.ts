@@ -4,6 +4,7 @@ import { NoteService } from '../note.service';
 
 import { Note } from '../note-model';
 import { Quest } from '../quest-model';
+import { Adventure } from '../adventure-model'
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
@@ -17,6 +18,7 @@ export class NotesListComponent implements OnInit {
 
   notes: Observable<Note[]>;
   quests: Observable<Quest[]>;
+  adventures: Observable<Adventure[]>;
   content: string;
 
   constructor(private noteService: NoteService) { }
@@ -25,6 +27,7 @@ export class NotesListComponent implements OnInit {
     // this.notes = this.noteService.getData()
     this.notes = this.noteService.getSnapshot();
     this.quests = this.noteService.getQuestSnapshot();
+    this.adventures = this.noteService.getAdventureSnapshot();
   }
 
   createNote() {

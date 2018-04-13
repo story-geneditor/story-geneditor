@@ -97,7 +97,28 @@ export class NoteService {
     return this.questsCollection.snapshotChanges().map((actions) => {
       return actions.map((a) => {
         const data = a.payload.doc.data() as Quest;
-        return { id: a.payload.doc.id, time: data.time, deliveryitem: data.deliveryitem };
+        return {
+          id: a.payload.doc.id,
+          time: data.time,
+          deliveryitem: data.deliveryitem
+        };
+      });
+    });
+  }
+
+  getAdventureSnapshot(): Observable<Adventure[]> {
+    // ['added', 'modified', 'removed']
+    console.log('getAdventureSnapshot')
+    return this.adventuresCollection.snapshotChanges().map((actions) => {
+      return actions.map((a) => {
+        const data = a.payload.doc.data() as Adventure;
+        console.log('mapping data:', a.payload.doc.data())
+        return {
+          id: a.payload.doc.id,
+          time: data.time,
+          tiles: data.tiles,
+          quests: data.quests
+        };
       });
     });
   }
