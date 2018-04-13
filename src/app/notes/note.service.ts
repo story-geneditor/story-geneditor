@@ -119,8 +119,8 @@ export class NoteService {
         return {
           id: a.payload.doc.id,
           time: data.time,
-          tiles: data.tiles,
-          quests: data.quests
+          // tiles: data.tiles,
+          // quests: data.quests
         };
       });
     });
