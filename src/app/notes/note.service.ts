@@ -119,8 +119,8 @@ export class NoteService {
         return {
           id: a.payload.doc.id,
           time: data.time,
-          // tiles: data.tiles,
-          // quests: data.quests
+          tiles: data.tiles,
+          quests: data.quests
         };
       });
     });
@@ -128,10 +128,8 @@ export class NoteService {
 
   getSingleAdventureSnapshot(): Observable<Adventure> {
     console.log('getSingleAdventureSnapshot')
-    //console.log(this.adventureDocument.snapshotChanges())
     return this.adventureDocument.snapshotChanges().map((a) => {
       console.log(a.payload)
-      //return actions.map((a) => {
         const data = a.payload.data() as Adventure;
         console.log('mapping data:', a.payload.data())
         return {
@@ -140,16 +138,6 @@ export class NoteService {
           tiles: data.tiles,
           quests: data.quests
         };
-      //});
-      /*return {
-        id: 'a123456',
-        time: 1234,
-        tiles: [{
-          landname: "Weird"
-          }],
-        quests: [{
-          deliveryitem: "The Lost Arc"
-        }]*/
     });
   }
 
