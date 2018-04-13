@@ -27,6 +27,7 @@ export class NoteService {
   notesCollection: AngularFirestoreCollection<Note>;
   questsCollection: AngularFirestoreCollection<Quest>;
   adventuresCollection: AngularFirestoreCollection<Adventure>;
+  //adventureDocument: AngularFirestoreDocument<Node>;
   noteDocument:   AngularFirestoreDocument<Node>;
   listOfItems: string[];
   listOfLandTypes: string[];
@@ -129,6 +130,10 @@ export class NoteService {
 
   getQuest(id: string) {
     return this.afs.doc<Quest>(`quests/${id}`);
+  }
+
+  getAdventure(id: string) {
+    return this.afs.doc<Adventure>(`adventures/${id}`)
   }
 
   create() {

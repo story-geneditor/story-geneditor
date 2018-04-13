@@ -1,9 +1,12 @@
 <h1>Your Story & Map</h1>
 <p>Create an awesome adventure</p>
 
-<ol>
+<p>Check it out: {{adventure.time}}</p>
+
+<ol> From Array:
   <li *ngFor="let adventure of adventures | async">
     <p>{{adventure.time}}</p>
+    <p>{{adventure.tiles[0].landname}}</p>
   </li>
 </ol>
 

@@ -19,6 +19,7 @@ export class NotesListComponent implements OnInit {
   notes: Observable<Note[]>;
   quests: Observable<Quest[]>;
   adventures: Observable<Adventure[]>;
+  adventure: object;
   content: string;
 
   constructor(private noteService: NoteService) { }
@@ -28,6 +29,8 @@ export class NotesListComponent implements OnInit {
     this.notes = this.noteService.getSnapshot();
     this.quests = this.noteService.getQuestSnapshot();
     this.adventures = this.noteService.getAdventureSnapshot();
+
+    this.adventure = this.noteService.getAdventure('wY0YFQAQE9hfHuoDAe6a').snapshotChanges();
   }
 
   createNote() {
