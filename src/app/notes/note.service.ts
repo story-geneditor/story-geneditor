@@ -154,7 +154,8 @@ export class NoteService {
         return {
           id: a.payload.doc.id,
           time: data.time,
-          deliveryitem: data.deliveryitem
+          deliveryitem: data.deliveryitem,
+          index: data.index
         };
       });
     });
@@ -217,9 +218,10 @@ export class NoteService {
   }
 
   createQuest() {
-    const newQuest = {
+    var newQuest = {
       deliveryitem: this.randomItem(),
-      time: new Date().getTime()
+      time: new Date().getTime(),
+      index: 0
     };
 
     this.afs.doc('adventures/wY0YFQAQE9hfHuoDAe6a')
@@ -227,6 +229,8 @@ export class NoteService {
      .first()
      .subscribe(adventure=>{
         var currentQuests = adventure.payload.data().quests;
+
+        newQuest.index = currentQuests.length;
 
         currentQuests.push(newQuest)
 
