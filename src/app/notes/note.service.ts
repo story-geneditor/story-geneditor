@@ -241,31 +241,30 @@ export class NoteService {
         this.updateAdventure(this.adventureID, {tiles: currentTiles});
 
       })
-
-
-
-/*
-    var tiles = this.afs.collection('notes', ref => ref.limit(9))
-    console.log(tiles)
-
-    this.afs.collection('notes', ref => ref.limit(9))
-     .snapshotChanges()
-     .first()
-     .subscribe(tiles=>{
-         for (var tile of tiles){
-           let id = tile.payload.doc.id
-           const data = tile.payload.doc.data() as Note;
-           console.log (id, data)
-           if (!data.locked) {
-             this.randomizeLand(id);
-           }
-         }
-       })
-      */
-
   }
 
   deleteAndRemake() {
+    console.log("deleteAndRemake");
+    var mapSize = 9;
+
+    var newTiles = []
+
+    for (var i = 0; i < mapSize; i++){
+      newTiles.push(
+        {
+          index: i,
+          landname: this.listOfLandNames[Math.floor(Math.random() * this.listOfLandNames.length)],
+          landtype: this.listOfLandTypes[Math.floor(Math.random() * this.listOfLandTypes.length)],
+          time: new Date().getTime(),
+          locked: false
+        }
+      )
+    }
+
+    console.log(newTiles);
+    this.updateAdventure(this.adventureID, {tiles: newTiles});
+
+    /*
     console.log("deleteAndRemake");
     var mapSize = 9;
     //create
@@ -282,8 +281,10 @@ export class NoteService {
        this.create();
      }
 
+
      //then as a second step, randomize:
      this.rerollAllLands();
+     */
   }
 
   updateNote(id: string, data: Partial<Note>) {

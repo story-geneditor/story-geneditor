@@ -3,6 +3,6 @@ import { Note } from './note-model';
 export interface Adventure {
   id?: string;
   time: number;
-  tiles: Array<Note>;
+  tiles: Array<any>;
   quests: Array<any>;
 }
