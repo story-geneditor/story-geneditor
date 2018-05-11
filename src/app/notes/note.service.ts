@@ -100,6 +100,32 @@ export class NoteService {
       })
   }
 
+  randomizeQuest(questArrayIndex: any) {
+    var randomItem = this.randomItem();
+
+    var updatedQuestData = {
+      tileIndex: questArrayIndex,
+      updateFields: [
+        {
+          key: "deliveryitem",
+          value: randomItem
+        }
+      ]
+    }
+
+    // TODO refactor this next part into the updateTile function
+
+    this.afs.doc('adventures/wY0YFQAQE9hfHuoDAe6a')
+     .snapshotChanges()
+     .first()
+     .subscribe(adventure=>{
+        var currentQuests = adventure.payload.data().quests
+
+        this.updateQuest(currentQuests, updatedQuestData)
+
+      })
+  }
+
   toggleTileLock(tileArrayIndex: any, lockState: boolean) {
     var updatedTileData = {
       tileIndex: tileArrayIndex,

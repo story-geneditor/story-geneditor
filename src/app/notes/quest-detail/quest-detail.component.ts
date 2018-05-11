@@ -17,10 +17,13 @@ export class QuestDetailComponent {
   constructor(private noteService: NoteService) { }
 
   getRandomItem() {
-    var randomItem = this.noteService.randomItem();
-    // console.log(typeof randomLand)
-    if (this.quest.id){
-      this.noteService.updateQuest(this.quest.id, { deliveryitem: randomItem});
+
+    if (this.quest.locked) {
+      return;
+    }
+
+    if (this.quest.time) {
+      this.noteService.randomizeQuest(this.quest.index);
     }
   }
 
