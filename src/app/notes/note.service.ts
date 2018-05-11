@@ -182,7 +182,7 @@ export class NoteService {
     return this.adventureDocument.snapshotChanges().map((a) => {
       //console.log(a.payload)
       const data = a.payload.data() as Adventure;
-      console.log('mapping data:', a.payload.data())
+      //console.log('mapping data:', a.payload.data())
       return {
         id: a.payload.id,
         time: data.time,
@@ -225,6 +225,26 @@ export class NoteService {
   }
 
   rerollAllLands() {
+    this.afs.doc('adventures/wY0YFQAQE9hfHuoDAe6a')
+     .snapshotChanges()
+     .first()
+     .subscribe(adventure=>{
+        var currentTiles = adventure.payload.data().tiles;
+
+        for (var tile in currentTiles) {
+          if (!currentTiles[tile].locked){
+            currentTiles[tile].landtype = this.listOfLandTypes[Math.floor(Math.random() * this.listOfLandTypes.length)];
+            currentTiles[tile].landname = this.listOfLandNames[Math.floor(Math.random() * this.listOfLandNames.length)];
+          }
+        }
+
+        this.updateAdventure(this.adventureID, {tiles: currentTiles});
+
+      })
+
+
+
+/*
     var tiles = this.afs.collection('notes', ref => ref.limit(9))
     console.log(tiles)
 
@@ -241,6 +261,7 @@ export class NoteService {
            }
          }
        })
+      */
 
   }
 
@@ -293,6 +314,7 @@ export class NoteService {
   }
 
   updateAdventure(id: string, data: Partial<Adventure>) {
+    console.log(data)
     return this.getAdventure(id).update(data);
   }
 
