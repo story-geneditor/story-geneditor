@@ -90,8 +90,16 @@ export class NoteService {
 
     var updatedTileData = {
       tileIndex: tileArrayIndex,
-      landname: randomLandName,
-      landtype: randomLandType
+      updateFields: [
+        {
+          key: "landname",
+          value: randomLandName
+        },
+        {
+          key: "landtype",
+          value: randomLandType
+        }
+      ]
     }
 
     this.afs.doc('adventures/wY0YFQAQE9hfHuoDAe6a')
@@ -279,12 +287,19 @@ export class NoteService {
 
   updateTile(newTiles: any, updateTileData: any) {
     console.log("updateTile :", newTiles);
-    console.log("index: ", updateTileData.tileIndex);
-    console.log("that one tile: ", newTiles[0]);
+    console.log("fields: ", updateTileData.updateFields);
+    //console.log("that one tile: ", newTiles[0]);
+
+    updateTileData.updateFields.forEach( function (field: any){
+
+      newTiles[updateTileData.tileIndex][field.key] = field.value;
+
+    })
 
 
-    newTiles[updateTileData.tileIndex].landname = updateTileData.landname;
-    newTiles[updateTileData.tileIndex].landtype = updateTileData.landtype;
+
+    //newTiles[updateTileData.tileIndex].landname = updateTileData.landname;
+    //newTiles[updateTileData.tileIndex].landtype = updateTileData.landtype;
 
     return this.getAdventure(this.adventureID).update({tiles: newTiles});
   }
