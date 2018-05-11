@@ -34,8 +34,8 @@ export class QuestDetailComponent {
   }
 
   deleteQuest() {
-    if (this.quest.id){
-      this.noteService.deleteQuest(this.quest.id)
+    if (this.quest.time){
+      this.noteService.deleteQuest(this.quest.index)
     }
   }
 

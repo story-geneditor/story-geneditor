@@ -395,7 +395,24 @@ export class NoteService {
     return this.getNote(id).delete();
   }
 
-  deleteQuest(id: string){
-    return this.getQuest(id).delete();
+  deleteQuest(questArrayIndex: number){
+    this.afs.doc('adventures/wY0YFQAQE9hfHuoDAe6a')
+     .snapshotChanges()
+     .first()
+     .subscribe(adventure=>{
+        var currentQuests = adventure.payload.data().quests
+        var newQuests = []
+
+        currentQuests.splice(questArrayIndex, 1);
+
+        for (var questIndex in currentQuests){
+          currentQuests[questIndex].index = questIndex;
+          newQuests.push(currentQuests[questIndex]);
+        }
+
+
+        return this.getAdventure(this.adventureID).update({quests: newQuests});
+
+    })
   }
 }
