@@ -5,4 +5,5 @@ export interface Note {
   id?: string;
   time: number;
   locked: boolean;
+  index: number;
 }

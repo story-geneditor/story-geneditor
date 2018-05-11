@@ -32,12 +32,16 @@ export class NoteService {
   listOfItems: string[];
   listOfLandTypes: string[];
   listOfLandNames: string[];
+  adventureID: string;
 
   constructor(private afs: AngularFirestore) {
     this.notesCollection = this.afs.collection('notes', (ref) => ref.orderBy('time', 'desc').limit(9));
     this.questsCollection = this.afs.collection('quests', (ref) => ref.orderBy('time', 'asc').limit(5));
     this.adventuresCollection = this.afs.collection('adventures', (ref) => ref.orderBy('time', 'asc').limit(1));
     this.adventureDocument = this.afs.doc<Adventure>(`adventures/wY0YFQAQE9hfHuoDAe6a`);
+
+    this.adventureID = "wY0YFQAQE9hfHuoDAe6a"
+
 
     this.listOfLandTypes = [
       'Swamp',
@@ -65,11 +69,65 @@ export class NoteService {
 
   }
 
-  randomizeLand(id: string) {
-    console.log("randomizeLand " + id);
+  randomizeLand(tileArrayIndex: any) {
+    console.log("randomizeLand ");
     var randomLandType = this.listOfLandTypes[Math.floor(Math.random() * this.listOfLandTypes.length)];
     var randomLandName = this.listOfLandNames[Math.floor(Math.random() * this.listOfLandNames.length)];
-    this.updateNote(id, {landtype: randomLandType, landname: randomLandName});
+    // this.updateNote(id, {landtype: randomLandType, landname: randomLandName});
+
+    // Find the Tile array position based on ID
+
+    // Update tile array with random land
+
+    // UpdateNote, passing in array of tiles
+
+    //var oldTileArray = tiles;
+
+    //console.log (oldTileArray)
+
+    //oldTileArray[tileArrayIndex].landname = randomLandName
+    //oldTileArray[tileArrayIndex].landtype = randomLandType
+
+    var updatedTileData = {
+      tileIndex: tileArrayIndex,
+      landname: randomLandName,
+      landtype: randomLandType
+    }
+
+    this.afs.doc('adventures/wY0YFQAQE9hfHuoDAe6a')
+     .snapshotChanges()
+     .first()
+     .subscribe(adventure=>{
+        console.log(adventure.payload.data());
+
+        var currentTiles = adventure.payload.data().tiles
+
+        console.log(currentTiles);
+
+
+        this.updateTile(currentTiles, updatedTileData)
+
+         //for (var adventure of adventures){
+           /*
+
+           let id = tile.payload.doc.id
+           const data = tile.payload.doc.data() as Note;
+           console.log (id, data)
+           if (!data.locked) {
+             this.randomizeLand(id);
+           }
+           */
+       })
+
+
+
+
+    //this.updateAdventure(adventureID, {tiles: oldTileArray});
+
+
+    // this.updateAdventure(adventureID + "/map/asdfasdf", {landname: randomLandName})
+    // this.updateAdventure(adventureID + "/tiles/" + tileArrayIndex, {landtype: randomLandType, landname: randomLandName});
+
   }
 
   randomItem() : string {
@@ -87,6 +145,7 @@ export class NoteService {
           landname: data.landname,
           landtype: data.landtype,
           hearts: data.hearts,
+          index: data.index,
           time: data.time,
           locked: data.locked
         };
@@ -158,6 +217,7 @@ export class NoteService {
       landtype: "LandType",
       landname: "LandName",
       hearts: 0,
+      index: 0,
       time: new Date().getTime(),
       locked: false
     };
@@ -217,8 +277,24 @@ export class NoteService {
     return this.getNote(id).update(data);
   }
 
+  updateTile(newTiles: any, updateTileData: any) {
+    console.log("updateTile :", newTiles);
+    console.log("index: ", updateTileData.tileIndex);
+    console.log("that one tile: ", newTiles[0]);
+
+
+    newTiles[updateTileData.tileIndex].landname = updateTileData.landname;
+    newTiles[updateTileData.tileIndex].landtype = updateTileData.landtype;
+
+    return this.getAdventure(this.adventureID).update({tiles: newTiles});
+  }
+
   updateQuest(id: string, data: Partial<Quest>) {
     return this.getQuest(id).update(data);
+  }
+
+  updateAdventure(id: string, data: Partial<Adventure>) {
+    return this.getAdventure(id).update(data);
   }
 
   deleteNote(id: string) {

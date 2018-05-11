@@ -8,7 +8,7 @@
 <h2>From Single Adventure</h2>
 <ol>
   <li *ngFor="let tile of (adventure | async)?.tiles">
-    <p>{{tile.landname}}</p>
+    <p>{{tile.landname}} {{tile.landtype}}</p>
   </li>
 </ol>
 
@@ -53,7 +53,7 @@
 </span>
 
 <div class="row">
-  <div *ngFor="let note of notes | async" class="col-4"
+  <div *ngFor="let note of (adventure | async)?.tiles" class="col-4"
   style="background-color:coral; border-style: dotted;">
     <note-detail [note]="note"></note-detail>
   </div>

@@ -4,6 +4,10 @@ import { NoteService } from '../note.service';
 
 import { Note } from '../note-model';
 
+import { Adventure } from '../adventure-model';
+
+import { Observable } from 'rxjs/Observable';
+
 @Component({
   selector: 'note-detail',
   templateUrl: './note-detail.component.html',
@@ -13,8 +17,13 @@ export class NoteDetailComponent {
 
   @Input()
   note: Note;
+  //adventure: Observable<Adventure>;
 
   constructor(private noteService: NoteService) { }
+
+  //ngOnInit() {
+    //this.adventure = this.noteService.getSingleAdventureSnapshot();
+  //}
 
   addHeartToNote(val: number) {
     if (this.note.id) {
@@ -28,8 +37,8 @@ export class NoteDetailComponent {
       if (this.note.locked) {
         return;
       }
-      if (this.note.id) {
-        this.noteService.randomizeLand(this.note.id);
+      if (this.note.time) {
+        this.noteService.randomizeLand(this.note.index);
       }
   }
 
