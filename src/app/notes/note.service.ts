@@ -217,11 +217,24 @@ export class NoteService {
   }
 
   createQuest() {
-    const quest = {
+    const newQuest = {
       deliveryitem: this.randomItem(),
       time: new Date().getTime()
     };
-    return this.questsCollection.add(quest);
+
+    this.afs.doc('adventures/wY0YFQAQE9hfHuoDAe6a')
+     .snapshotChanges()
+     .first()
+     .subscribe(adventure=>{
+        var currentQuests = adventure.payload.data().quests;
+
+        currentQuests.push(newQuest)
+
+        this.updateAdventure(this.adventureID, {quests: currentQuests});
+
+      })
+
+    //return this.questsCollection.add(quest);
   }
 
   rerollAllLands() {
@@ -302,16 +315,21 @@ export class NoteService {
 
     })
 
-
-
-    //newTiles[updateTileData.tileIndex].landname = updateTileData.landname;
-    //newTiles[updateTileData.tileIndex].landtype = updateTileData.landtype;
-
     return this.getAdventure(this.adventureID).update({tiles: newTiles});
   }
 
-  updateQuest(id: string, data: Partial<Quest>) {
-    return this.getQuest(id).update(data);
+  updateQuest(newQuests: any, updateQuestData: any) {
+
+    updateQuestData.updateFields.forEach( function (field: any){
+
+      newQuests[updateQuestData.tileIndex][field.key] = field.value;
+
+    })
+
+    return this.getAdventure(this.adventureID).update({quests: newQuests});
+
+    // return this.getQuest(id).update(data);
+
   }
 
   updateAdventure(id: string, data: Partial<Adventure>) {

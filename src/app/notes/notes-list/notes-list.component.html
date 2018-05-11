@@ -29,7 +29,7 @@
 
 <div class="row">
   <ol>
-    <li *ngFor="let quest of quests | async">
+    <li *ngFor="let quest of (adventure | async)?.quests">
       <quest-detail [quest]="quest"></quest-detail>
     </li>
   </ol>
