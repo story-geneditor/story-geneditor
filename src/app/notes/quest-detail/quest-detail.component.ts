@@ -25,7 +25,9 @@ export class QuestDetailComponent {
   }
 
   toggleLock() {
-    //TODO
+    if (this.quest.time){
+      this.noteService.toggleQuestLock(this.quest.index, this.quest.locked);
+    }
   }
 
   deleteQuest() {

@@ -122,6 +122,28 @@ export class NoteService {
       })
   }
 
+  toggleQuestLock(questArrayIndex: any, lockState: boolean) {
+    var updatedQuestData = {
+      tileIndex: questArrayIndex,
+      updateFields: [
+        {
+          key: "locked",
+          value: !lockState
+        }
+      ]
+    }
+
+    this.afs.doc('adventures/wY0YFQAQE9hfHuoDAe6a')
+     .snapshotChanges()
+     .first()
+     .subscribe(adventure=>{
+        var currentQuests = adventure.payload.data().quests
+
+        this.updateQuest(currentQuests, updatedQuestData)
+
+      })
+  }
+
   randomItem() : string {
     return this.listOfItems[Math.floor(Math.random() * this.listOfItems.length)];
   }
@@ -155,6 +177,7 @@ export class NoteService {
           id: a.payload.doc.id,
           time: data.time,
           deliveryitem: data.deliveryitem,
+          locked: data.locked,
           index: data.index
         };
       });
@@ -221,6 +244,7 @@ export class NoteService {
     var newQuest = {
       deliveryitem: this.randomItem(),
       time: new Date().getTime(),
+      locked: false,
       index: 0
     };
 

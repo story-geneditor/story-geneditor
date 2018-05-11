@@ -3,4 +3,5 @@ export interface Quest {
   id?: string;
   time: number;
   index: number;
+  locked: boolean;
 }
