@@ -43,8 +43,8 @@ export class NoteDetailComponent {
   }
 
   toggleLock() {
-    if (this.note.id){
-      this.noteService.updateNote(this.note.id, {locked: !this.note.locked});
+    if (this.note.time){
+      this.noteService.toggleTileLock(this.note.index, this.note.locked);
     }
   }
 

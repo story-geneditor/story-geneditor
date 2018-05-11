@@ -70,23 +70,8 @@ export class NoteService {
   }
 
   randomizeLand(tileArrayIndex: any) {
-    console.log("randomizeLand ");
     var randomLandType = this.listOfLandTypes[Math.floor(Math.random() * this.listOfLandTypes.length)];
     var randomLandName = this.listOfLandNames[Math.floor(Math.random() * this.listOfLandNames.length)];
-    // this.updateNote(id, {landtype: randomLandType, landname: randomLandName});
-
-    // Find the Tile array position based on ID
-
-    // Update tile array with random land
-
-    // UpdateNote, passing in array of tiles
-
-    //var oldTileArray = tiles;
-
-    //console.log (oldTileArray)
-
-    //oldTileArray[tileArrayIndex].landname = randomLandName
-    //oldTileArray[tileArrayIndex].landtype = randomLandType
 
     var updatedTileData = {
       tileIndex: tileArrayIndex,
@@ -102,40 +87,39 @@ export class NoteService {
       ]
     }
 
+    // TODO refactor this next part into the updateTile function
+
     this.afs.doc('adventures/wY0YFQAQE9hfHuoDAe6a')
      .snapshotChanges()
      .first()
      .subscribe(adventure=>{
-        console.log(adventure.payload.data());
-
         var currentTiles = adventure.payload.data().tiles
-
-        console.log(currentTiles);
-
 
         this.updateTile(currentTiles, updatedTileData)
 
-         //for (var adventure of adventures){
-           /*
+      })
+  }
 
-           let id = tile.payload.doc.id
-           const data = tile.payload.doc.data() as Note;
-           console.log (id, data)
-           if (!data.locked) {
-             this.randomizeLand(id);
-           }
-           */
-       })
+  toggleTileLock(tileArrayIndex: any, lockState: boolean) {
+    var updatedTileData = {
+      tileIndex: tileArrayIndex,
+      updateFields: [
+        {
+          key: "locked",
+          value: !lockState
+        }
+      ]
+    }
 
+    this.afs.doc('adventures/wY0YFQAQE9hfHuoDAe6a')
+     .snapshotChanges()
+     .first()
+     .subscribe(adventure=>{
+        var currentTiles = adventure.payload.data().tiles
 
+        this.updateTile(currentTiles, updatedTileData)
 
-
-    //this.updateAdventure(adventureID, {tiles: oldTileArray});
-
-
-    // this.updateAdventure(adventureID + "/map/asdfasdf", {landname: randomLandName})
-    // this.updateAdventure(adventureID + "/tiles/" + tileArrayIndex, {landtype: randomLandType, landname: randomLandName});
-
+      })
   }
 
   randomItem() : string {
